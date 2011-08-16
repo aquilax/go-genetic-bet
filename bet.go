@@ -57,7 +57,6 @@ func ReadCoef() (Coef){
   c[1], _ = strconv.Atof64(os.Args[2]);
   c[2], _ = strconv.Atof64(os.Args[3]);
   return c
-  //return {(1/c1)*100, (1/c2)*100, (1/c3)*100};
 }
 
 func CoefPercent(c Coef) (Coef) {
@@ -92,6 +91,7 @@ func GenPopulation(n int) (Generation) {
   return gen
 }
 
+//The fitness function is bad
 func Fitness(i *Individual, coef Coef){
   var outc Coef
   sum := Sum((*i).bets)
@@ -101,12 +101,6 @@ func Fitness(i *Individual, coef Coef){
   (*i).risk_max = Max(outc);
   (*i).risk_min = Min(outc);
 
-/*  
-  (*i).fitness = ((*i).risk_max) + (*i).risk_min
-  if (*i).risk_min < -5 {
-    (*i).fitness += -100
-  }
-*/
   (*i).fitness = (*i).risk_min
 }
 
@@ -223,19 +217,4 @@ func main () {
   init := GenPopulation(POPULATION)
 
   GenerationNext(init, 15, coef);
-/*
-  var best Individual;
-  var bestf float64 = 1000
-  for i, _ := range population {
-    Fitness(&population[i], coef);
-    if math.Fabs(population[i].fitness) < bestf && math.Fabs(population[i].fitness) > 0 {
-      best = population[i]
-      bestf = math.Fabs(population[i].fitness)
-    }
-  }
-  sort.Sort(population);
-  population.Print();
-  population = population.Evolve(10)
-  fmt.Println(best,"\n")
-*/
 }
